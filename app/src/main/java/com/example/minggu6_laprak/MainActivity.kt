@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
                 selectedTime = decideTime(hourOfDay, minute)
             }
+
             suparogu.setOnClickListener {
                 val selected = spinner.selectedItem.toString()
                 if(selected == items[1] || selected == items[2] || selected == items[3]) {
@@ -84,15 +85,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun decideTime(hourOfDay:Int, minute:Int): String {
         var selectedTime = ""
+        var minutes = minute.toString()
+        if(minute < 10) {
+            minutes = "0$minute"
+        }
         if(hourOfDay < 12) {
-            selectedTime = "$hourOfDay:$minute AM"
+            selectedTime = "$hourOfDay:$minutes AM"
         } else if(hourOfDay > 12) {
-            selectedTime = "${hourOfDay % 12}:$minute PM"
+            selectedTime = "${hourOfDay % 12}:$minutes PM"
         }  else{
             if(minute > 0) {
-                selectedTime = "${hourOfDay % 12}:$minute PM"
+                selectedTime = "${hourOfDay % 12}:$minutes PM"
             } else if(minute == 0) {
-                selectedTime = "$hourOfDay:$minute AM"
+                selectedTime = "$hourOfDay:$minutes AM"
             }
         }
         return selectedTime
